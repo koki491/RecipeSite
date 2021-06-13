@@ -1,0 +1,58 @@
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10000;
+}
+
+#container {
+    padding-top: 150px;
+}
+
+nav {
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    list-style: none;
+    display: inline-block;
+    width: 33%;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+nav ul li a:hover {
+    color: #E7DA66;
+}
+
+.search_box {
+    position: absolute;
+    width: 1000px;
+    height: 25px;
+    top: 30px;
+}
+
+.all_category {
+    position: relative;
+    top: 150px;
+}
+
+.each_category {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: skyblue;
+    text-align: center;
+    line-height: 150px;
+    text-decoration: none;
+}
