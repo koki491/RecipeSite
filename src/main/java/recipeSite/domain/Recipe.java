@@ -13,5 +13,5 @@ public class Recipe {
     private User user_id;
     private String cooking_name;
     private byte[] cooking_image;
-    private LargeCategory large_category_id;
+    private Integer large_category_id;
 }

@@ -1,0 +1,18 @@
+CREATE TABLE users(id  INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(20));
+CREATE TABLE recipes(id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, cooking_name VARCHAR(50), cooking_image MEDIUMBLOB, large_category_id INT);
+CREATE TABLE large_category(id INT PRIMARY KEY AUTO_INCREMENT, category_name VARCHAR(10));
+CREATE TABLE small_category(id INT PRIMARY KEY AUTO_INCREMENT, category_name VARCHAR(10), large_category_id INT);
+
+INSERT INTO large_category(category_name) VALUES("肉料理");
+INSERT INTO large_category(category_name) VALUES("魚料理");
+INSERT INTO large_category(category_name) VALUES("ごはんもの");
+INSERT INTO large_category(category_name) VALUES("パン");
+INSERT INTO large_category(category_name) VALUES("パスタ");
+INSERT INTO large_category(category_name) VALUES("サラダ");
+INSERT INTO large_category(category_name) VALUES("スープ");
+INSERT INTO large_category(category_name) VALUES("お菓子");
+INSERT INTO large_category(category_name) VALUES("飲み物");
+
+INSERT INTO small_category(category_name, large_category_id) VALUES("牛", 4);
+INSERT INTO small_category(category_name, large_category_id) VALUES("豚", 4);
+INSERT INTO small_category(category_name, large_category_id) VALUES("鶏", 4);

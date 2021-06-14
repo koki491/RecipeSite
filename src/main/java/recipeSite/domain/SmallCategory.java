@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class SmallCategory {
     private Integer id;
     private String category_name;
-    private LargeCategory large_category_id;
+    private Integer large_category_id;
 }
