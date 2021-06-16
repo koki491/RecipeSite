@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
     <meta charset="UTF-8">
     <title>検索結果</title>
@@ -16,7 +17,9 @@
         </nav>
     </header>
     <main>
-        <input class="search_box" type="text" id="keyword" name="keyword" value="料理名・食材・カテゴリで検索">
+        <form th:action="@{/search_result}" th:object="${recipeForm}" method="post" >
+            <input class="search_box" type="text" id="cooking_name" name="cooking_name" th:field="*{cooking_name}" value="料理名・食材・カテゴリで検索">
+        </form>
 
         <div class="all_result">
             <img class="input_image">

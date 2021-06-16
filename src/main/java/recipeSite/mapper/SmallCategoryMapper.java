@@ -7,7 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface SmallCategoryMapper {
-    SmallCategory findById(SmallCategory smallCategory);
-
     List<SmallCategory> findByLargeCategoryId(SmallCategory smallCategory);
 }

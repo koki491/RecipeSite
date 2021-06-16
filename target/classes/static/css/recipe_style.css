@@ -1,0 +1,28 @@
+.recipe {
+    position: relative;
+    width: 1000px;
+    height: 1000px;
+    border: 1px solid black;
+}
+
+.cooking_name {
+    text-align: center;
+    position: absolute;
+    font-size: 20px;
+    top: 0;
+}
+
+.cooking_comment {
+    position: absolute;
+    right: 0;
+}
+
+.cooking_image {
+    position: absolute;
+    left: 0;
+}
+
+.cooking_info {
+    position: absolute;
+    top: 100px;
+}

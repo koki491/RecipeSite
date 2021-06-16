@@ -15,12 +15,6 @@ public class SmallCategoryService {
     @Autowired
     private SmallCategoryMapper smallCategoryMapper;
 
-    public SmallCategory findById(Integer id) {
-        SmallCategory smallCategory = new SmallCategory();
-        smallCategory.setId(id);
-        return this.smallCategoryMapper.findById(smallCategory);
-    }
-
     public List<SmallCategory> findByLargeCategoryId(Integer id) {
         SmallCategory smallCategory = new SmallCategory();
         smallCategory.setLarge_category_id(id);

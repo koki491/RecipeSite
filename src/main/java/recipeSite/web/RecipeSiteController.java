@@ -3,15 +3,18 @@ package recipeSite.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import recipeSite.domain.LargeCategory;
+import recipeSite.domain.Recipe;
+import recipeSite.domain.SmallCategory;
 import recipeSite.service.LargeCategoryService;
 import recipeSite.service.RecipeService;
 import recipeSite.service.SmallCategoryService;
 import recipeSite.service.UserService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/")
@@ -26,60 +29,42 @@ public class RecipeSiteController {
     @Autowired
     private UserService userService;
 
+    @ModelAttribute
+    RecipeForm recipeForm() {
+        return new RecipeForm();
+    }
+
     //デフォルトページ
     @GetMapping
-    public String index() {
+    public String index(Model model) {
+        List<LargeCategory> large_categories = largeCategoryService.findAll();
+        model.addAttribute("large_categories", large_categories);
         return "index";
     }
 
     //カテゴリーを選択した後のページ
-    @GetMapping(path = "/recipe_category")
-    public String recipeCategory() {
-        return "recipe_category";
+    @GetMapping(path = "/recipeCategory")
+    public String recipeCategory(@RequestParam(required = false) Integer id, Model model, Model model1) {
+        Integer small_category_id = 1;
+        List<SmallCategory> smallCategories = smallCategoryService.findByLargeCategoryId(id);
+        model.addAttribute("smallCategories", smallCategories);
+        List<Recipe> recipes = recipeService.findByLargeSmallId(id, small_category_id);
+        model1.addAttribute("recipes", recipes);
+        return "recipeCategory";
     }
 
     //検索結果が表示されるページ
-    @GetMapping(path = "/search_result")
-    public String searchResult() {
-        return "search_result";
+    @PostMapping(path = "/searchResult")
+    public String searchResult(@Validated RecipeForm recipeForm, Model model) {
+        List<Recipe> recipes = recipeService.findByName(recipeForm.getCooking_name());
+        model.addAttribute("recipes", recipes);
+        return "searchResult";
     }
 
     //マイページを表示
     @PostMapping(path = "/myPage")
     public String myPage() {
-        return "my_page";
+        return "myPage";
     }
 
-    //ログインフォーム
-    @PostMapping(path = "/loginForm")
-    public String postLogin(Model model) {
-        return "/login_form";
-    }
-
-    //ユーザー登録画面
-    @GetMapping(path = "/newUser")
-    public String newUser() {
-        return "new_user";
-    }
-
-    //ユーザー登録実装
-    @PostMapping(path = "/newUser")
-    public ModelAndView register(
-            ModelAndView mav,
-            @RequestParam("username") String username,
-            @RequestParam("encoded_password") String encoded_password) {
-
-        RegisterUserForm registerUserForm = new RegisterUserForm();
-        registerUserForm.setUsername(username);
-        registerUserForm.setEncoded_password(encoded_password);
-        try {
-            //ユーザー情報を登録
-            userService.create(registerUserForm);
-            mav.setViewName("loginForm");
-        } catch (Exception e) {
-            mav.setViewName("newUser");
-            mav.addObject("error", "ユーザー名は使用できません。：" + username);
-        }
-        return mav;
-    }
 }

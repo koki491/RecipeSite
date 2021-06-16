@@ -16,19 +16,15 @@ import recipeSite.web.RegisterUserForm;
 public class UserService implements UserDetailsService {
 
     @Autowired
-    private UserMapper userMapper;
+    UserMapper userMapper;
 
-    //Register user detail
-    public void create(RegisterUserForm registerUserForm) {
-        userMapper.save(registerUserForm);
-    }
 
     //Login user detail
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = new User();
-        user.setUser_name(username);
+        user.setUsername(username);
         user = this.userMapper.findById(user);
         if (user == null) {
             throw new UsernameNotFoundException("The requested user is not found.");

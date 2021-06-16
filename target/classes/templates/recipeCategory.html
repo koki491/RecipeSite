@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>メニュー</title>
+    <link href="../static/css/category_style.css" rel="stylesheet" type="text/css" th:href="@{/css/category_style.css}"/>
+</head>
+<body>
+    <div class="tabs" th:each="smallCategory : ${smallCategories}">
+        <input id="category" type="radio" name="tab_item">
+        <label class="tab_item" th:text="${smallCategory.category_name}">牛</label>
+    </div>
+    <div class="tab_content" th:each="recipe : ${recipes}">
+        <img class="cooking_image" th:text="${recipe.cooking_image}">
+        <p class="cooking_name" th:text="${recipe.cooking_name}"></p>
+    </div>
+</body>
+</html>

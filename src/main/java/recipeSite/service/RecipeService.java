@@ -17,7 +17,20 @@ public class RecipeService {
     public Recipe findById(Integer id) {
         Recipe recipe = new Recipe();
         recipe.setId(id);
-        return recipeMapper.findById(id);
+        return recipeMapper.findById(recipe);
+    }
+
+    public List<Recipe> findByLargeSmallId(Integer large_category_id, Integer small_category_id) {
+        Recipe recipe = new Recipe();
+        recipe.setLarge_category_id(large_category_id);
+        recipe.setSmall_category_id(small_category_id);
+        return recipeMapper.findByLargeSmallId(recipe);
+    }
+
+    public List<Recipe> findByName(String name) {
+        Recipe recipe = new Recipe();
+        recipe.setCooking_name(name);
+        return recipeMapper.findByName(recipe);
     }
 
     public void create(Recipe recipe) {

@@ -21,14 +21,14 @@ public class Main implements CommandLineRunner {
 
     }
 
-    public  static void main(String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
 
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:3306/recipeSite")
+                .url("jdbc:mysql://localhost:3306/recipe")
                 .username("root")
                 .password("testroot")
                 .build();
