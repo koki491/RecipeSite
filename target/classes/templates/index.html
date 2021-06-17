@@ -10,14 +10,14 @@
     <header>
         <nav>
             <ul>
-                <li><a th:href="@{/loginPage}">マイページ</a></li>
+                <li><a th:href="@{/loginForm}">マイページ</a></li>
                 <li><a href="#">履歴</a></li>
                 <li><a href="#">設定</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <form th:action="@{/searchesult}" th:object="${recipeForm}" method="post" >
+        <form th:action="@{/searchResult}" th:object="${recipeForm}" method="post" >
             <input class="search_box" type="text" id="cooking_name" name="cooking_name" th:field="*{cooking_name}" value="料理名・食材・カテゴリで検索">
         </form>
         <div class="all_category" th:each="large_category : ${large_categories}">

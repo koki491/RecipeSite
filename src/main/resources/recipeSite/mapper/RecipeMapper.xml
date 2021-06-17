@@ -16,8 +16,10 @@
     </select>
     <select id="findByLargeSmallId" resultType="recipeSite.domain.Recipe">
         select
+        recipes.id,
         cooking_name,
-        cooking_image
+        cooking_image,
+        cooking_recipe
         from recipes
         LEFT JOIN small_category
         ON recipes.small_category_id = small_category.id
@@ -28,16 +30,18 @@
     </select>
     <select id="findByName" resultType="recipeSite.domain.Recipe">
         select
+        id,
         cooking_name,
-        cooking_image
+        cooking_image,
+        cooking_recipe
         from recipes
         where cooking_name LIKE '%${cooking_name}%'
     </select>
     <!-- Mapperインターフェースのsave関数実行時のSQL
     新規で作成する場合はinsert要素を使用する -->
     <insert id="save" parameterType="recipeSite.domain.Recipe">
-        INSERT INTO posts (user_id, cooking_name, cooking_image, cooking_recipe, small_category_id)
-        VALUES (#{user_id}, #{cooking_name}, #{cooking_image}, #{cooking_image}, #{small_category_id})
+        INSERT INTO recipes (user_id, cooking_name, cooking_image, cooking_recipe, small_category_id)
+        VALUES (#{user_id}, #{cooking_name}, #{cooking_image}, #{cooking_recipe}, #{small_category_id})
     </insert>
 
     <update id="update" parameterType="recipeSite.domain.Recipe">

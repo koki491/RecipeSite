@@ -13,7 +13,11 @@
     </div>
     <div class="tab_content" th:each="recipe : ${recipes}">
         <img class="cooking_image" th:text="${recipe.cooking_image}">
-        <p class="cooking_name" th:text="${recipe.cooking_name}"></p>
+        <form class="input_form" id="form1" th:action="@{/recipe}" method="get">
+            <input type="hidden" name="id" th:value="${recipe.id}">
+<!--            <a class="cooking_name" href="javascript:document.getElementById('form1').submit();" th:text="${recipe.cooking_name}"></a>-->
+            <input type="submit" class="cooking_name" th:text="${recipe.cooking_name}">
+        </form>
     </div>
 </body>
 </html>

@@ -6,11 +6,10 @@
   <link href="../static/css/recipe_style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-    <div class="recipe">
-        <p class="cooking_name">簡単！ほうれん草炒め</p>
-        <p class="cooking_comment">鉄分がたっぷり取れるメニューです</p>
-        <img class="cooking_image">
-        <p class="cooking_info">ほうれん草を洗って・・・</p>
+    <div class="recipe" th:each="recipe : ${recipe}">
+        <p class="cooking_name" th:text="${recipe.cooking_name}">簡単！ほうれん草炒め</p>
+        <img class="cooking_image" th:text="${recipe.cooking_image}">
+        <p class="cooking_info" th:text="${recipe.cooking_recipe}">ほうれん草を洗って・・・</p>
     </div>
 </body>
 </html>

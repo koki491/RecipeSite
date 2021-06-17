@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8"/>
+    <title>マイページ</title>
+    <link href="../../static/css/myPage_style.css" rel="stylesheet" type="text/css" th:href="@{/css/myPage_style.css}"/>
+</head>
+<body>
+<header>
+    <h1>マイページ</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" class="btn-logout" value="ログアウト" />
+    </form>
+</header>
+<main>
+    <a class="home" href="/postRecipe">レシピ投稿</a>
+</main>
+</body>
+</html>

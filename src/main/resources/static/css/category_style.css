@@ -17,12 +17,14 @@ input[name="tab_item"] {
     display: none;
 }
 
+/*
 .tab_content {
     display: none;
     padding: 40px 40px 0;
     clear: both;
     overflow: hidden;
 }
+*/
 
 #all:checked ~ #all_content,
 #programing:checked ~ #programing_content,
