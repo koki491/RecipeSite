@@ -2,20 +2,17 @@ package recipeSite.web;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import recipeSite.domain.LargeCategory;
-import recipeSite.domain.LoginUserDetails;
 import recipeSite.domain.Recipe;
 import recipeSite.domain.SmallCategory;
 import recipeSite.service.LargeCategoryService;
 import recipeSite.service.RecipeService;
 import recipeSite.service.SmallCategoryService;
-import recipeSite.service.UserService;
+import recipeSite.service.LoginUserDetailsService;
 
 import java.util.List;
 
@@ -30,7 +27,10 @@ public class RecipeSiteController {
     @Autowired
     private SmallCategoryService smallCategoryService;
     @Autowired
-    private UserService userService;
+    private LoginUserDetailsService loginUserDetailsService;
+
+    private Integer large_category_id = 1;
+    private Integer small_category_id = 1;
 
     @ModelAttribute
     RecipeForm recipeForm() {
@@ -48,11 +48,20 @@ public class RecipeSiteController {
     //カテゴリーを選択した後のページ
     @GetMapping(path = "/recipeCategory")
     public String recipeCategory(@RequestParam(required = false) Integer id, Model model, Model model1) {
-        //小タグを入力するとsmall_category_idが切り替わるようにしたい
-        Integer small_category_id = 2;
-        List<SmallCategory> smallCategories = smallCategoryService.findByLargeCategoryId(id);
+        large_category_id = id;
+        List<SmallCategory> smallCategories = smallCategoryService.findByLargeCategoryId(large_category_id);
         model.addAttribute("smallCategories", smallCategories);
-        List<Recipe> recipes = recipeService.findByLargeSmallId(id, small_category_id);
+        List<Recipe> recipes = recipeService.findByLargeSmallId(large_category_id, small_category_id);
+        model1.addAttribute("recipes", recipes);
+        return "recipeCategory";
+    }
+
+    @GetMapping(path = "/recipeCategoryChange")
+    public String recipeCategoryChange(@RequestParam(required = false) Integer id, Model model, Model model1) {
+        small_category_id = id;
+        List<SmallCategory> smallCategories = smallCategoryService.findByLargeCategoryId(large_category_id);
+        model.addAttribute("smallCategories", smallCategories);
+        List<Recipe> recipes = recipeService.findByLargeSmallId(large_category_id, small_category_id);
         model1.addAttribute("recipes", recipes);
         return "recipeCategory";
     }

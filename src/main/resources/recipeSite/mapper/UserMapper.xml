@@ -17,7 +17,7 @@
         username,
         encoded_password
         from users
-        where id = #{id}
+        where username = #{username}
     </select>
     <insert id="save" parameterType="recipeSite.web.RegisterUserForm">
         INSERT INTO users (username, encoded_password)

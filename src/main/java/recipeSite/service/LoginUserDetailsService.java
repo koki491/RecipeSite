@@ -13,7 +13,7 @@ import recipeSite.web.RegisterUserForm;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService {
+public class LoginUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserMapper userMapper;

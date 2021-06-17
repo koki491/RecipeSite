@@ -5,19 +5,27 @@
     <meta charset="UTF-8">
     <title>メニュー</title>
     <link href="../static/css/category_style.css" rel="stylesheet" type="text/css" th:href="@{/css/category_style.css}"/>
+    <script type="text/javascript" th:src="@{/js/category.js}"></script>
 </head>
 <body>
-    <div class="tabs" th:each="smallCategory : ${smallCategories}">
-        <input id="category" type="radio" name="tab_item">
-        <label class="tab_item" th:text="${smallCategory.category_name}">牛</label>
-    </div>
-    <div class="tab_content" th:each="recipe : ${recipes}">
-        <img class="cooking_image" th:text="${recipe.cooking_image}">
-        <form class="input_form" id="form1" th:action="@{/recipe}" method="get">
-            <input type="hidden" name="id" th:value="${recipe.id}">
-<!--            <a class="cooking_name" href="javascript:document.getElementById('form1').submit();" th:text="${recipe.cooking_name}"></a>-->
-            <input type="submit" class="cooking_name" th:text="${recipe.cooking_name}">
-        </form>
+    <div class="tab-panel">
+        <ul class="tab-group">
+            <form id="f" th:action="@{/recipeCategoryChange}" th:each="smallCategory : ${smallCategories}" method="get">
+                <input type="hidden" name="id" id="id" th:value="${smallCategory.id}">
+                <li class="tab" id="tab" onclick="myFunction(this)" th:value="${smallCategory.id}" th:text="${smallCategory.category_name}">猿</li>
+            </form>
+        </ul>
+        <div class="panel-group">
+            <div class="panel" th:each="recipe : ${recipes}">
+                <img class="cooking_image" th:text="${recipe.cooking_image}">
+                <form class="input_form" id="form" th:action="@{/recipe}" method="get">
+                    <input type="hidden" name="id" th:value="${recipe.id}">
+                    <!--            <a class="cooking_name" href="javascript:document.getElementById('form1').submit();" th:text="${recipe.cooking_name}"></a>-->
+                    <input type="submit" class="cooking_name" th:text="${recipe.cooking_name}">
+                </form>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

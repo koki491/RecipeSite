@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Recipe Site</title>
     <link href="../static/css/style.css" rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
 </head>
 <body>
     <header>
@@ -20,12 +21,14 @@
         <form th:action="@{/searchResult}" th:object="${recipeForm}" method="post" >
             <input class="search_box" type="text" id="cooking_name" name="cooking_name" th:field="*{cooking_name}" value="料理名・食材・カテゴリで検索">
         </form>
-        <div class="all_category" th:each="large_category : ${large_categories}">
-            <form class="input_form" id="form1" th:action="@{/recipeCategory}" method="get">
-                <input type="hidden" name="id" th:value="${large_category.id}">
-<!--                <a class="each_category" href="javascript:document.getElementById('form1').submit();" th:text="${large_category.category_name}"></a>-->
-                <input type="submit" class="each_category" th:text="${large_category.category_name}">
-            </form>
+        <div class="all_category">
+            <ul>
+                <form class="input_form" id="form" th:action="@{/recipeCategory}" th:each="large_category : ${large_categories}" method="get">
+                    <input type="hidden" name="id" th:value="${large_category.id}">
+                    <li class="each_category" onclick="myFunction(this);" th:value="${large_category.id}" th:text="${large_category.category_name}"></li>
+                    <!--                <input type="submit" class="each_category" th:text="${large_category.category_name}">-->
+                </form>
+            </ul>
         </div>
     </main>
 </body>
