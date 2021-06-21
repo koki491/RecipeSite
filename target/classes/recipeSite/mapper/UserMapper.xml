@@ -19,6 +19,13 @@
         from users
         where username = #{username}
     </select>
+    <select id="findByNamePass" resultType="Integer">
+        select
+        id
+        from users
+        where username = #{username}
+        and encoded_password = #{encoded_password}
+    </select>
     <insert id="save" parameterType="recipeSite.web.RegisterUserForm">
         INSERT INTO users (username, encoded_password)
         VALUES (#{username}, #{encoded_password})

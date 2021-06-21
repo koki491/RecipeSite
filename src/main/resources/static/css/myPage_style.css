@@ -5,14 +5,28 @@ body {
     margin-right: auto;
     margin-left: auto;
     padding-top: 30px;
+    border: 1px solid;
 }
 
-.tab-group {
+h1 {
+    text-align: center;
+}
+
+.btn {
+    float: right;
+}
+
+.btn input {
+    background-color: white;
+    margin-top: 3px;
+}
+
+.tab_group {
     display: flex;
     justify-content: center;
 }
 
-.tab {
+.tab_group li {
     width: 100px;
     padding: 5px;
     list-style: none;
@@ -51,8 +65,14 @@ body {
     left: 50%;
 }
 
-.return {
+.btn-outline-primary {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    top: 0;
+    right: 0;
+}
+
+.btn-outline-danger {
+    position: absolute;
+    top: 30px;
+    right: 0;
 }

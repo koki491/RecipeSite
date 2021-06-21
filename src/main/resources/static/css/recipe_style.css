@@ -1,8 +1,18 @@
+body {
+    width: 1000px;
+    height: 1000px;
+    background-color: #eee;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 30px;
+}
+
 .recipe {
     position: relative;
     width: 1000px;
     height: 1000px;
     border: 1px solid black;
+    background-color: white;
 }
 
 .cooking_name {
@@ -10,11 +20,6 @@
     position: absolute;
     font-size: 20px;
     top: 0;
-}
-
-.cooking_comment {
-    position: absolute;
-    right: 0;
 }
 
 .cooking_image {

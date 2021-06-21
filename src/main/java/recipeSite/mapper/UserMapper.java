@@ -12,5 +12,7 @@ public interface UserMapper {
 
     User findById(User user);
 
+    Integer findByNamePass(User user);
+
     void save(RegisterUserForm registerUserForm);
 }

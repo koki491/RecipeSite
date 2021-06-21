@@ -31,4 +31,12 @@ public class LoginUserDetailsService implements UserDetailsService {
         }
         return new LoginUserDetails(user);
     }
+
+    public Integer findByNamePass(String username, String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setEncoded_password(password);
+        Integer id = this.userMapper.findByNamePass(user);
+        return id;
+    }
 }

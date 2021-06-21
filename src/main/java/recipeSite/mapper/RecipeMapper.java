@@ -16,6 +16,8 @@ public interface RecipeMapper {
 
     List<Recipe> findByName(Recipe recipe);
 
+    List<Recipe> findByUserId(Recipe recipe);
+
     void save(Recipe recipe);
 
     void update(Recipe recipe);

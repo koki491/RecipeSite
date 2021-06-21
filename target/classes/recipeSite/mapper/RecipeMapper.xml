@@ -37,6 +37,15 @@
         from recipes
         where cooking_name LIKE '%${cooking_name}%'
     </select>
+    <select id="findByUserId" resultType="recipeSite.domain.Recipe">
+        select
+        id,
+        cooking_name,
+        cooking_image,
+        cooking_recipe
+        from recipes
+        where user_id = #{user_id}
+    </select>
     <!-- Mapperインターフェースのsave関数実行時のSQL
     新規で作成する場合はinsert要素を使用する -->
     <insert id="save" parameterType="recipeSite.domain.Recipe">

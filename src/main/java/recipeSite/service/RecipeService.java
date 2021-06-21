@@ -33,6 +33,12 @@ public class RecipeService {
         return recipeMapper.findByName(recipe);
     }
 
+    public List<Recipe> findByUserId(Integer user_id) {
+        Recipe recipe = new Recipe();
+        recipe.setUser_id(user_id);
+        return recipeMapper.findByUserId(recipe);
+    }
+
     public void create(Recipe recipe) {
         recipeMapper.save(recipe);
     }

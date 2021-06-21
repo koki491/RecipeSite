@@ -1,15 +1,25 @@
+body {
+    width: 1000px;
+    height: 1000px;
+    background-color: #eee;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 30px;
+}
+
 .tab-group {
     display: flex;
     justify-content: center;
 }
 
 .tab {
-    flex-grow: 1;
+    width: 100px;
     padding: 5px;
     list-style: none;
     border: solid 1px #CCC;
     text-align: center;
     cursor: pointer;
+    background: white;
 }
 
 .panel-group {
@@ -20,5 +30,29 @@
 }
 
 .panel {
-    display: none;
+    position: relative;
+    width: 1000px;
+    height: 300px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+}
+
+.cooking_image {
+    position: absolute;
+    top: 0;
+    left: 50%;
+}
+
+.cooking_name {
+    position: absolute;
+    top: 250px;
+    left: 50%;
+}
+
+.return {
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }

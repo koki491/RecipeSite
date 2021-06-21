@@ -17,17 +17,30 @@
         </nav>
     </header>
     <main>
-        <form th:action="@{/searchResult}" th:object="${recipeForm}" method="post" >
-            <input class="search_box" type="text" id="cooking_name" name="cooking_name" th:field="*{cooking_name}" value="料理名・食材・カテゴリで検索">
-        </form>
-
-        <div class="all_result" th:each="recipe : ${recipes}">
-            <img class="input_image" th:text="${recipe.cooking_image}">
-            <form class="input_form" id="form1" th:action="@{/recipe}" method="get">
-                <input type="hidden" name="id" th:value="${recipe.id}">
-<!--                <a class="input_title" href="javascript:document.getElementById('form1').submit();" th:text="${recipe.cooking_name}"></a>-->
-                <input type="submit" class="input_title" th:text="${recipe.cooking_name}">
+        <div class="search_box">
+            <form th:action="@{/searchResult}" th:object="${recipeForm}" method="post" >
+                <input class="input_textbox" type="text" id="cooking_name" name="cooking_name" th:field="*{cooking_name}" value="料理名・食材・カテゴリで検索">
             </form>
+        </div>
+
+
+        <div class="panel-group">
+            <div class="panel" th:each="recipe : ${recipes}">
+                <img class="cooking_image" th:text="${recipe.cooking_image}">
+                <form class="input_form" id="form1" th:action="@{/recipe}" method="get">
+                    <input type="hidden" name="id" th:value="${recipe.id}">
+<!--                <a class="input_title" href="javascript:document.getElementById('form1').submit();" th:text="${recipe.cooking_name}"></a>-->
+                    <input type="submit" class="cooking_name" th:text="${recipe.cooking_name}">
+                </form>
+<!--            <ul>-->
+<!--                <form class="input_form" id="form" th:action="@{/recipeCategory}" th:each="recipe : ${recipes}" method="get">-->
+<!--                    <img class="input_image" th:text="${recipe.cooking_image}">-->
+<!--                    <input type="hidden" name="id" th:value="${recipe.id}">-->
+<!--                    <li class="each_category" onclick="myFunction(this);" th:value="${recipe.id}" th:text="${recipe.category_name}"></li>-->
+<!--                    &lt;!&ndash;                <input type="submit" class="each_category" th:text="${large_category.category_name}">&ndash;&gt;-->
+<!--                </form>-->
+<!--            </ul>-->
+            </div>
         </div>
     </main>
 

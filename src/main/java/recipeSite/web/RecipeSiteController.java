@@ -2,11 +2,15 @@ package recipeSite.web;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import recipeSite.domain.LargeCategory;
+import recipeSite.domain.LoginUserDetails;
 import recipeSite.domain.Recipe;
 import recipeSite.domain.SmallCategory;
 import recipeSite.service.LargeCategoryService;
@@ -14,6 +18,7 @@ import recipeSite.service.RecipeService;
 import recipeSite.service.SmallCategoryService;
 import recipeSite.service.LoginUserDetailsService;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Controller
@@ -82,13 +87,19 @@ public class RecipeSiteController {
     }
 
     //マイページを表示
-    @GetMapping(path = "/myPage")
-    public String myPage() {
+    @RequestMapping(path = "/myPage")
+    public String myPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
+        String username = userDetails.getUser().getUsername();
+        String password = userDetails.getUser().getEncoded_password();
+        Integer id = loginUserDetailsService.findByNamePass(username, password);
+        List<Recipe> recipes = recipeService.findByUserId(id);
+        model.addAttribute("recipes", recipes);
+        System.out.println(recipes);
         return "myPage";
     }
 
-    //レシ画面
-    @GetMapping(path = "postRecipe")
+    //レシピ画面
+    @PostMapping(path = "postRecipe")
     public String postRecipe(Model model, Model model1) {
         List<LargeCategory> large_categories = largeCategoryService.findAll();
         model.addAttribute("large_categories", large_categories);
@@ -98,13 +109,49 @@ public class RecipeSiteController {
     }
 
     @PostMapping(path = "add")
-    String create(@Validated RecipeForm recipeForm) { // @AuthenticationPrincipal LoginUserDetails userDetails
+    String create(@Validated RecipeForm recipeForm, @AuthenticationPrincipal LoginUserDetails userDetails) {
         Recipe recipe = new Recipe();
-//        recipe.setUser_id(userDetails.getUser().getId());
+        String username = userDetails.getUser().getUsername();
+        String password = userDetails.getUser().getEncoded_password();
+        Integer id = loginUserDetailsService.findByNamePass(username, password);
+        recipe.setUser_id(id);
         BeanUtils.copyProperties(recipeForm, recipe);
-        System.out.println(recipe.getSmall_category_id());
         recipeService.create(recipe);
-        return "/myPage";
+        return "redirect:/myPage";
+    }
+
+    @GetMapping(path = "edit", params = "form")
+    String editForm(@RequestParam Integer id, RecipeForm recipeForm) {
+        Recipe recipe = recipeService.findById(id);
+        BeanUtils.copyProperties(recipe, recipeForm);
+        return "/edit";
+    }
+
+    @RequestMapping(path = "edit", params = "goToTop", method = RequestMethod.POST)
+    String goToTop() {
+        return "redirect:/myPage";
+    }
+
+    @PostMapping(path = "edit")
+    String edit(@RequestParam Integer id, RecipeForm recipeForm, @NotNull BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return editForm(id, recipeForm);
+        }
+        Recipe recipe = new Recipe();
+        BeanUtils.copyProperties(recipeForm, recipe);
+        recipe.setId(id);
+        recipeService.update(recipe);
+
+//        redirectAttributes.addFlashAttribute("id", id);
+        return "redirect:/myPage";
+    }
+
+    @PostMapping(path = "delete")
+    String delete(@RequestParam Integer id) {
+        Recipe recipe = new Recipe();
+        recipe.setId(id);
+        recipeService.delete(recipe);
+        return "redirect:/myPage";
     }
 
 }

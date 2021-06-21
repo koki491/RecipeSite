@@ -9,12 +9,46 @@
 <body>
 <header>
     <h1>マイページ</h1>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" class="btn-logout" value="ログアウト" />
-    </form>
 </header>
 <main>
-    <a class="home" href="/postRecipe">レシピ投稿</a>
+    <div class="btn">
+        <form th:action="@{/postRecipe}" method="post">
+            <input type="submit" value="レシピ投稿">
+        </form>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" class="btn-logout" value="ログアウト" />
+        </form>
+    </div>
+    <div class="tab_panel">
+        <ul class="tab_group">
+            <li>投稿一覧</li>
+            <li>お気に入りレシピ</li>
+            <li>設定</li>
+        </ul>
+    </div>
+    <div class="panel-group">
+        <div class="panel" th:each="recipe : ${recipes}">
+            <img class="cooking_image" th:text="${recipe.cooking_image}">
+            <form class="input_form" id="form" th:action="@{/recipe}" method="get">
+                <input type="hidden" name="id" th:value="${recipe.id}">
+                <!--            <a class="cooking_name" href="javascript:document.getElementById('form1').submit();" th:text="${recipe.cooking_name}"></a>-->
+                <input type="submit" class="cooking_name" th:text="${recipe.cooking_name}">
+            </form>
+            <form class="input_form" th:action="@{/edit}" method="get">
+                <input type="submit" class="btn btn-outline-primary" name="form" value="編集">
+                <input type="hidden" name="id" th:value="${recipe.id}">
+            </form>
+            <form class="input_delete_form" th:action="@{/delete}" method="post">
+                <input type="submit" class="btn btn-outline-danger" value="削除">
+                <input type="hidden" name="id" th:value="${recipe.id}">
+            </form>
+        </div>
+    </div>
+    <div class="panel-group">
+        <div class="favorite-recipe">
+
+        </div>
+    </div>
 </main>
 </body>
 </html>

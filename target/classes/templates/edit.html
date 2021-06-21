@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>レシピ編集</title>
+    <link href="../static/css/edit_style.css" rel="stylesheet" type="text/css" th:href="@{/css/edit_style.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>レシピ編集</h1>
+    <form th:action="@{/edit}" th:object="${recipeForm}" method="post">
+        <dl>
+            <dt><label for="message">message</label></dt>
+            <dd>
+                <textarea id="message" name="message" rows="5" cols="80" th:field="*{cooking_recipe}"></textarea>
+            </dd>
+        </dl>
+        <input type="submit" class="btn-return" name="goToTop" value="戻る" />
+        <input type="hidden" name="id" th:value="${param.id[0]}" />
+        <input type="submit" class="btn-update" value="更新" />
+    </form>
+</div>
+</body>
+</html>

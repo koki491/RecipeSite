@@ -1,8 +1,18 @@
+body {
+    width: 1000px;
+    height: 1000px;
+    background-color: #eee;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 30px;
+}
+
 header {
     position: fixed;
-    width: 100%;
+    width: 1000px;
     top: 0;
     z-index: 10000;
+    background-color: white;
 }
 
 #container {
@@ -22,7 +32,7 @@ nav ul {
 nav ul li {
     list-style: none;
     display: inline-block;
-    width: 33%;
+    width: 30%;
 }
 
 nav ul li a {
@@ -34,16 +44,18 @@ nav ul li a:hover {
     color: #E7DA66;
 }
 
-.search_box {
-    position: absolute;
+.input_textbox {
     width: 1000px;
     height: 25px;
     top: 30px;
+    padding-bottom: 0;
+    margin-bottom: 1px;
 }
 
 .all_category {
     position: relative;
-    top: 150px;
+    top: 50px;
+    background-color: white;
 }
 
 .each_category {
@@ -55,4 +67,11 @@ nav ul li a:hover {
     text-align: center;
     line-height: 150px;
     text-decoration: none;
+}
+
+ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 50px;
+    justify-items: center;
 }

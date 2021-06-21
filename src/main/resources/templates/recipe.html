@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
   <meta charset="UTF-8">
   <title>recipe</title>
-  <link href="../static/css/recipe_style.css" rel="stylesheet" type="text/css"/>
+  <link href="../static/css/recipe_style.css" rel="stylesheet" type="text/css" th:href="@{/css/recipe_style.css}"/>
 </head>
 <body>
     <div class="recipe" th:each="recipe : ${recipe}">
