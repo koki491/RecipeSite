@@ -26,7 +26,7 @@
 
         <div class="panel-group">
             <div class="panel" th:each="recipe : ${recipes}">
-                <img class="cooking_image" th:text="${recipe.cooking_image}">
+                <img class="cooking_image" th:src="'data:image/jpeg;base64,' + ${recipe.cooking_image}">
                 <form class="input_form" id="form1" th:action="@{/recipe}" method="get">
                     <input type="hidden" name="id" th:value="${recipe.id}">
 <!--                <a class="input_title" href="javascript:document.getElementById('form1').submit();" th:text="${recipe.cooking_name}"></a>-->

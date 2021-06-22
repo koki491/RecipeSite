@@ -1,5 +1,6 @@
 package recipeSite.web;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,17 +10,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import recipeSite.domain.LargeCategory;
-import recipeSite.domain.LoginUserDetails;
-import recipeSite.domain.Recipe;
-import recipeSite.domain.SmallCategory;
+import recipeSite.domain.*;
 import recipeSite.service.LargeCategoryService;
 import recipeSite.service.RecipeService;
 import recipeSite.service.SmallCategoryService;
 import recipeSite.service.LoginUserDetailsService;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping(path = "/")
@@ -57,7 +59,8 @@ public class RecipeSiteController {
         List<SmallCategory> smallCategories = smallCategoryService.findByLargeCategoryId(large_category_id);
         model.addAttribute("smallCategories", smallCategories);
         List<Recipe> recipes = recipeService.findByLargeSmallId(large_category_id, small_category_id);
-        model1.addAttribute("recipes", recipes);
+        List<RecipeParse> recipes1 = parseRecipesInfo(recipes);
+        model1.addAttribute("recipes", recipes1);
         return "recipeCategory";
     }
 
@@ -67,7 +70,8 @@ public class RecipeSiteController {
         List<SmallCategory> smallCategories = smallCategoryService.findByLargeCategoryId(large_category_id);
         model.addAttribute("smallCategories", smallCategories);
         List<Recipe> recipes = recipeService.findByLargeSmallId(large_category_id, small_category_id);
-        model1.addAttribute("recipes", recipes);
+        List<RecipeParse> recipes1 = parseRecipesInfo(recipes);
+        model1.addAttribute("recipes", recipes1);
         return "recipeCategory";
     }
 
@@ -75,14 +79,16 @@ public class RecipeSiteController {
     @PostMapping(path = "/searchResult")
     public String searchResult(@Validated RecipeForm recipeForm, Model model) {
         List<Recipe> recipes = recipeService.findByName(recipeForm.getCooking_name());
-        model.addAttribute("recipes", recipes);
+        List<RecipeParse> recipes1 = parseRecipesInfo(recipes);
+        model.addAttribute("recipes", recipes1);
         return "searchResult";
     }
 
     @GetMapping(path = "/recipe")
     public String Recipe(@RequestParam(required = false) Integer id, Model model) {
         Recipe recipe = recipeService.findById(id);
-        model.addAttribute("recipe", recipe);
+        RecipeParse recipe1 = parseRecipeInfo(recipe);
+        model.addAttribute("recipe", recipe1);
         return "recipe";
     }
 
@@ -93,8 +99,8 @@ public class RecipeSiteController {
         String password = userDetails.getUser().getEncoded_password();
         Integer id = loginUserDetailsService.findByNamePass(username, password);
         List<Recipe> recipes = recipeService.findByUserId(id);
-        model.addAttribute("recipes", recipes);
-        System.out.println(recipes);
+        List<RecipeParse> recipes1 = parseRecipesInfo(recipes);
+        model.addAttribute("recipes", recipes1);
         return "myPage";
     }
 
@@ -115,6 +121,12 @@ public class RecipeSiteController {
         String password = userDetails.getUser().getEncoded_password();
         Integer id = loginUserDetailsService.findByNamePass(username, password);
         recipe.setUser_id(id);
+        try {
+            byte[] bytes = recipeForm.getCooking_image().getBytes();
+            recipe.setCooking_image(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         BeanUtils.copyProperties(recipeForm, recipe);
         recipeService.create(recipe);
         return "redirect:/myPage";
@@ -141,8 +153,6 @@ public class RecipeSiteController {
         BeanUtils.copyProperties(recipeForm, recipe);
         recipe.setId(id);
         recipeService.update(recipe);
-
-//        redirectAttributes.addFlashAttribute("id", id);
         return "redirect:/myPage";
     }
 
@@ -152,6 +162,40 @@ public class RecipeSiteController {
         recipe.setId(id);
         recipeService.delete(recipe);
         return "redirect:/myPage";
+    }
+
+    public String encodedBase64(byte[] data) {
+        return Base64.encodeBase64String(data);
+    }
+
+    //byte配列をBase64型に変換したレシピ情報をまとめるメソッド
+    public List<RecipeParse> parseRecipesInfo(List<Recipe> recipes) {
+        List<RecipeParse> recipes1 = new ArrayList<RecipeParse>();
+        for(Recipe recipe : recipes) {
+            RecipeParse recipe1 = new RecipeParse();
+            recipe1.setId(recipe.getId());
+            recipe1.setUser_id(recipe.getUser_id());
+            recipe1.setCooking_name(recipe.getCooking_name());
+            recipe1.setCooking_image(encodedBase64(recipe.getCooking_image()));
+            recipe1.setCooking_recipe(recipe.getCooking_recipe());
+            recipe1.setSmall_category_id(recipe.getSmall_category_id());
+            recipe1.setLarge_category_id(recipe.getLarge_category_id());
+            recipes1.add(recipe1);
+        }
+        return recipes1;
+    }
+
+    public RecipeParse parseRecipeInfo(Recipe recipe) {
+        RecipeParse recipeParse = new RecipeParse();
+        recipeParse.setId(recipe.getId());
+        recipeParse.setUser_id(recipe.getUser_id());
+        recipeParse.setCooking_name(recipe.getCooking_name());
+        recipeParse.setCooking_image(encodedBase64(recipe.getCooking_image()));
+        recipeParse.setCooking_recipe(recipe.getCooking_recipe());
+        recipeParse.setSmall_category_id(recipe.getSmall_category_id());
+        recipeParse.setLarge_category_id(recipe.getLarge_category_id());
+
+        return recipeParse;
     }
 
 }

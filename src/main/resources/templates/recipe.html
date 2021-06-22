@@ -9,8 +9,9 @@
 <body>
     <div class="recipe" th:each="recipe : ${recipe}">
         <p class="cooking_name" th:text="${recipe.cooking_name}">簡単！ほうれん草炒め</p>
-        <img class="cooking_image" th:text="${recipe.cooking_image}">
+        <img class="cooking_image" th:src="'data:image/jpeg;base64,' + ${recipe.cooking_image}">
         <p class="cooking_info" th:text="${recipe.cooking_recipe}">ほうれん草を洗って・・・</p>
     </div>
+    <a href="/recipeCategoryChange">戻る</a>
 </body>
 </html>
